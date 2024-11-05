@@ -12,10 +12,10 @@ final class HomeViewController: UIViewController {
     
     private var searchTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Search"
-        textField.borderStyle = .roundedRect
+        textField.placeholder = " Search "
+        textField.borderStyle = .none
         textField.returnKeyType = .search
-        textField.backgroundColor = .gray
+        textField.backgroundColor = UIColor(white: 0.95, alpha: 1)
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 16)
