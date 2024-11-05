@@ -7,14 +7,23 @@
 
 import Foundation
 
-protocol HomeInteractorOutputs {
+protocol HomeViewInputs: AnyObject {
+    func reloadData(responseData: ResponseData)
+    func showError(_ error: Error)
 }
 
-protocol HomeViewInputs {
-}
-
-protocol HomeViewPresenterInput {
+protocol HomeViewPresenterInput: AnyObject {
     func viewDidLoad()
-    func fetchProducts()
-    func fetchSponsoredProducts()
+}
+
+protocol HomeInteractorInput: AnyObject {
+    func fetchProductsData(url: String)
+}
+
+protocol HomeInteractorOutputs: AnyObject {
+    func fetchedProductsData(result: Result<ResponseData, Error>)
+}
+
+protocol HomeRouterInput: AnyObject {
+    // Navigation
 }

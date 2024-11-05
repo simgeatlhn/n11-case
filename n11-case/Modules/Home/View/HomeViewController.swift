@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
         return textField
     }()
     
-    private var sponsoredProductsCollectionView: UICollectionView = {
+    private lazy var sponsoredProductsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
@@ -30,42 +30,56 @@ final class HomeViewController: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SponsoredProductCell")
+        collectionView.register(SponsoredProductCell.self, forCellWithReuseIdentifier: "SponsoredProductCell")
         return collectionView
     }()
     
-    private var pageControl: UIPageControl = {
+    private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
-        pageControl.numberOfPages = 10
+        pageControl.numberOfPages = 0
         pageControl.currentPageIndicatorTintColor = .black
         pageControl.pageIndicatorTintColor = .gray
         return pageControl
     }()
     
-    private var productsCollectionView: UICollectionView = {
+    private lazy var productsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "ProductCell")
+        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "ProductCell")
         return collectionView
     }()
     
-    lazy var presenter: HomePresenter = .init(interactor: HomeInteractor(), view: self)
+    // Data
+    private var sponsoredProducts: [SponsoredProductEntity] = []
+    private var products: [ProductEntity] = []
+    
+    // Presenter
+    var presenter: HomeViewPresenterInput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        setupDelegates()
+        makeUICordinate()
+        
+        if presenter == nil {
+            print("Presenter is nil")
+        } else {
+            presenter.viewDidLoad()
+        }
+    }
+    
+    private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(searchTextField)
         view.addSubview(sponsoredProductsCollectionView)
         view.addSubview(pageControl)
         view.addSubview(productsCollectionView)
-        
-        makeUICordinate()
-        setupDelegates()
     }
     
     private func setupDelegates() {
@@ -85,22 +99,29 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == sponsoredProductsCollectionView {
-            return 10
+            return sponsoredProducts.count
         } else {
-            return 10
+            return products.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == sponsoredProductsCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SponsoredProductCell", for: indexPath)
-            cell.backgroundColor = .gray
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SponsoredProductCell", for: indexPath) as? SponsoredProductCell else {
+                return UICollectionViewCell()
+            }
+            let product = sponsoredProducts[indexPath.row]
+            cell.configure(with: product)
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath)
-            cell.backgroundColor = .gray
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as? ProductCell else {
+                return UICollectionViewCell()
+            }
+            let product = products[indexPath.row]
+            cell.configure(with: product)
             return cell
         }
     }
@@ -122,10 +143,26 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension HomeViewController: HomeViewInputs {
-
+    func reloadData(responseData: ResponseData) {
+        self.sponsoredProducts = responseData.sponsoredProducts
+        self.products = responseData.products
+        DispatchQueue.main.async { [weak self] in
+            self?.sponsoredProductsCollectionView.reloadData()
+            self?.productsCollectionView.reloadData()
+            self?.pageControl.numberOfPages = self?.sponsoredProducts.count ?? 0
+        }
+    }
+    
+    func showError(_ error: Error) {
+        let alert = UIAlertController(title: "error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
-//MARK: UI Draw
+// MARK: UI Draw
 extension HomeViewController {
     func makeUICordinate() {
         searchTextField.snp.makeConstraints { make in
@@ -147,7 +184,7 @@ extension HomeViewController {
         
         productsCollectionView.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview().inset(8)
         }
     }
 }

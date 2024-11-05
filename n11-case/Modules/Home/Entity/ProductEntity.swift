@@ -1,5 +1,5 @@
 //
-//  SponsoredProductEntity.swift
+//  ProductEntity.swift
 //  n11-case
 //
 //  Created by simge on 5.11.2024.
@@ -7,20 +7,14 @@
 
 import Foundation
 
-struct ResponseData: Codable {
-    let page: String
-    let nextPage: String?
-    let sponsoredProducts: [SponsoredProductEntity]
-    let products: [ProductEntity]
-}
-
-struct SponsoredProductEntity: Codable {
+struct ProductEntity: Codable {
     let id: Int
     let title: String
     let imageUrl: String
     let price: Double
-    let instantDiscountPrice: Double
+    let instantDiscountPrice: Double?
     let rate: Double?
+    let sellerName: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -29,6 +23,6 @@ struct SponsoredProductEntity: Codable {
         case price
         case instantDiscountPrice
         case rate
+        case sellerName
     }
 }
-
