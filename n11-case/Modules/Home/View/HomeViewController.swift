@@ -57,10 +57,6 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configure()
-    }
-    
-    private func configure() {
         view.addSubview(searchTextField)
         view.addSubview(sponsoredProductsCollectionView)
         view.addSubview(pageControl)
@@ -121,6 +117,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             updatePageControl()
         }
     }
+}
+
+extension HomeViewController: HomeViewInputs {
+
 }
 
 //MARK: UI Draw

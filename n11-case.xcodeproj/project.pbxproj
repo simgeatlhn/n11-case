@@ -18,6 +18,7 @@
 		60C0602E2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */; };
 		60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0603B2CDA453400522B3B /* HomeViewController.swift */; };
 		60C0603F2CDA468500522B3B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60C0603E2CDA468500522B3B /* SnapKit */; };
+		60C060492CDA55E100522B3B /* HomeContractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C060482CDA55E100522B3B /* HomeContractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITests.swift; sourceTree = "<group>"; };
 		60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		60C0603B2CDA453400522B3B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		60C060482CDA55E100522B3B /* HomeContractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				60C060442CDA4C9B00522B3B /* Entity */,
 				60C060432CDA4C8F00522B3B /* Presenter */,
 				60C060422CDA4C8500522B3B /* Interactor */,
+				60C0604A2CDA574000522B3B /* Contractor */,
 				60C060412CDA4C7F00522B3B /* View */,
 			);
 			path = Home;
@@ -202,6 +205,14 @@
 				60C0600A2CDA290C00522B3B /* AppDelegate.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		60C0604A2CDA574000522B3B /* Contractor */ = {
+			isa = PBXGroup;
+			children = (
+				60C060482CDA55E100522B3B /* HomeContractor.swift */,
+			);
+			path = Contractor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60C060492CDA55E100522B3B /* HomeContractor.swift in Sources */,
 				60C0600F2CDA290C00522B3B /* ViewController.swift in Sources */,
 				60C0600B2CDA290C00522B3B /* AppDelegate.swift in Sources */,
 				60C0600D2CDA290C00522B3B /* SceneDelegate.swift in Sources */,
