@@ -31,6 +31,15 @@ class ProductCell: UICollectionViewCell {
         stackView.spacing = 2
         stackView.alignment = .center
         stackView.distribution = .fill
+        for _ in 1...5 {
+            let starImageView = UIImageView(image: UIImage(systemName: "star.fill"))
+            starImageView.tintColor = .systemYellow
+            starImageView.contentMode = .scaleAspectFit
+            stackView.addArrangedSubview(starImageView)
+            starImageView.snp.makeConstraints { make in
+                make.width.height.equalTo(12)
+            }
+        }
         return stackView
     }()
     
@@ -127,11 +136,9 @@ class ProductCell: UICollectionViewCell {
         }
         
         if let rate = product.rate {
-            rateLabel.text = "\(rate)"
-            setupStars(rate: rate)
+            rateLabel.text = String(format: "(%.1f)", rate)
         } else {
-            rateLabel.text = ""
-            setupStars(rate: 0)
+            rateLabel.text = "(0)"
         }
         
         // Fiyat Ayarlama
@@ -155,31 +162,7 @@ class ProductCell: UICollectionViewCell {
             let priceText = String(format: "%.2f TL", product.price)
             priceLabel.text = priceText
             instantDiscountPriceLabel.text = priceText
-            extraDiscountPriceLabel.text = "—"
             extraDiscountView.isHidden = true
-        }
-    }
-    
-    
-    private func setupStars(rate: Double) {
-        starsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        for index in 1...5 {
-            let starImageView = UIImageView()
-            if rate >= Double(index) {
-                starImageView.image = UIImage(systemName: "star.fill")
-            } else if rate >= Double(index) - 0.5 {
-                starImageView.image = UIImage(systemName: "star.lefthalf.fill")
-            } else {
-                starImageView.image = UIImage(systemName: "star")
-            }
-            starImageView.tintColor = .systemYellow
-            starImageView.contentMode = .scaleAspectFit
-            starsStackView.addArrangedSubview(starImageView)
-            
-            starImageView.snp.makeConstraints { make in
-                make.width.height.equalTo(12)
-            }
         }
     }
     
@@ -277,3 +260,4 @@ extension ProductCell {
         }
     }
 }
+

@@ -110,6 +110,7 @@ class SponsoredProductCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     func configure(with product: SponsoredProductEntity) {
         if let url = URL(string: product.imageUrl) {
             imageView.kf.setImage(with: url)
