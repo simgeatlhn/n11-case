@@ -16,6 +16,8 @@
 		60C060222CDA290D00522B3B /* n11_caseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C060212CDA290D00522B3B /* n11_caseTests.swift */; };
 		60C0602C2CDA290D00522B3B /* n11_caseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */; };
 		60C0602E2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */; };
+		60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0603B2CDA453400522B3B /* HomeViewController.swift */; };
+		60C0603F2CDA468500522B3B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60C0603E2CDA468500522B3B /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,7 @@
 		60C060272CDA290D00522B3B /* n11-caseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n11-caseUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITests.swift; sourceTree = "<group>"; };
 		60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		60C0603B2CDA453400522B3B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60C0603F2CDA468500522B3B /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,11 +103,10 @@
 		60C060092CDA290C00522B3B /* n11-case */ = {
 			isa = PBXGroup;
 			children = (
-				60C0600A2CDA290C00522B3B /* AppDelegate.swift */,
-				60C0600C2CDA290C00522B3B /* SceneDelegate.swift */,
-				60C0600E2CDA290C00522B3B /* ViewController.swift */,
+				60C060472CDA4D0800522B3B /* Core */,
+				60C060462CDA4CCC00522B3B /* Resources */,
+				60C0603A2CDA451000522B3B /* Modules */,
 				60C060102CDA290C00522B3B /* Main.storyboard */,
-				60C060132CDA290D00522B3B /* Assets.xcassets */,
 				60C060152CDA290D00522B3B /* LaunchScreen.storyboard */,
 				60C060182CDA290D00522B3B /* Info.plist */,
 			);
@@ -127,6 +130,80 @@
 			path = "n11-caseUITests";
 			sourceTree = "<group>";
 		};
+		60C0603A2CDA451000522B3B /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				60C060402CDA4C7600522B3B /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		60C060402CDA4C7600522B3B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				60C060452CDA4CA700522B3B /* Router */,
+				60C060442CDA4C9B00522B3B /* Entity */,
+				60C060432CDA4C8F00522B3B /* Presenter */,
+				60C060422CDA4C8500522B3B /* Interactor */,
+				60C060412CDA4C7F00522B3B /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		60C060412CDA4C7F00522B3B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				60C0603B2CDA453400522B3B /* HomeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		60C060422CDA4C8500522B3B /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		60C060432CDA4C8F00522B3B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		60C060442CDA4C9B00522B3B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		60C060452CDA4CA700522B3B /* Router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		60C060462CDA4CCC00522B3B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				60C060132CDA290D00522B3B /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		60C060472CDA4D0800522B3B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				60C0600C2CDA290C00522B3B /* SceneDelegate.swift */,
+				60C0600E2CDA290C00522B3B /* ViewController.swift */,
+				60C0600A2CDA290C00522B3B /* AppDelegate.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +220,9 @@
 			dependencies = (
 			);
 			name = "n11-case";
+			packageProductDependencies = (
+				60C0603E2CDA468500522B3B /* SnapKit */,
+			);
 			productName = "n11-case";
 			productReference = 60C060072CDA290C00522B3B /* n11-case.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +295,9 @@
 				Base,
 			);
 			mainGroup = 60C05FFE2CDA290C00522B3B;
+			packageReferences = (
+				60C0603D2CDA459300522B3B /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 60C060082CDA290C00522B3B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,6 +344,7 @@
 				60C0600F2CDA290C00522B3B /* ViewController.swift in Sources */,
 				60C0600B2CDA290C00522B3B /* AppDelegate.swift in Sources */,
 				60C0600D2CDA290C00522B3B /* SceneDelegate.swift in Sources */,
+				60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +691,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		60C0603D2CDA459300522B3B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		60C0603E2CDA468500522B3B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60C0603D2CDA459300522B3B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 60C05FFF2CDA290C00522B3B /* Project object */;
 }
