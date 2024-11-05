@@ -13,6 +13,8 @@ protocol HomeInteractorOutputs {
 protocol HomeViewInputs {
 }
 
-protocol HomeViewOutputs {
+protocol HomeViewPresenterInput {
     func viewDidLoad()
+    func fetchProducts()
+    func fetchSponsoredProducts()
 }

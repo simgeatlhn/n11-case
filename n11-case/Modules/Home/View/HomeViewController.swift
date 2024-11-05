@@ -54,6 +54,8 @@ final class HomeViewController: UIViewController {
         return collectionView
     }()
     
+    lazy var presenter: HomePresenter = .init(interactor: HomeInteractor(), view: self)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
