@@ -131,7 +131,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return CGSize(width: collectionView.frame.width, height: 200)
         } else {
             let width = (collectionView.frame.width - 8) / 2
-            return CGSize(width: width, height: width + 50)
+            return CGSize(width: width, height: width + 150)
         }
     }
     
