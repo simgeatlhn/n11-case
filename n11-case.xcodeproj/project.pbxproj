@@ -19,6 +19,7 @@
 		60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0603B2CDA453400522B3B /* HomeViewController.swift */; };
 		60C0603F2CDA468500522B3B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60C0603E2CDA468500522B3B /* SnapKit */; };
 		60C060492CDA55E100522B3B /* HomeContractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C060482CDA55E100522B3B /* HomeContractor.swift */; };
+		60C0604C2CDA5B9100522B3B /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0604B2CDA5B9100522B3B /* HomeInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		60C0603B2CDA453400522B3B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		60C060482CDA55E100522B3B /* HomeContractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContractor.swift; sourceTree = "<group>"; };
+		60C0604B2CDA5B9100522B3B /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 		60C060422CDA4C8500522B3B /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
+				60C0604B2CDA5B9100522B3B /* HomeInteractor.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				60C060492CDA55E100522B3B /* HomeContractor.swift in Sources */,
 				60C0600F2CDA290C00522B3B /* ViewController.swift in Sources */,
 				60C0600B2CDA290C00522B3B /* AppDelegate.swift in Sources */,
+				60C0604C2CDA5B9100522B3B /* HomeInteractor.swift in Sources */,
 				60C0600D2CDA290C00522B3B /* SceneDelegate.swift in Sources */,
 				60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */,
 			);
