@@ -23,7 +23,9 @@ class HomeRouter: HomeRouterInput {
         
         return view
     }
+    
+    func navigateToProductDetail(with productId: Int) {
+        let detailViewController = ProductDetailRouter.createModule(productId: productId)
+        viewController?.navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
-
-
-

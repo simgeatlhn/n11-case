@@ -14,10 +14,11 @@ protocol HomeViewInputs: AnyObject {
 
 protocol HomeViewPresenterInput: AnyObject {
     func viewDidLoad()
+    func didSelectProduct(withId productId: Int)
 }
 
 protocol HomeInteractorInput: AnyObject {
-    func fetchProductsData(url: String)
+    func fetchProductsData(page: Int)
 }
 
 protocol HomeInteractorOutputs: AnyObject {
@@ -25,5 +26,5 @@ protocol HomeInteractorOutputs: AnyObject {
 }
 
 protocol HomeRouterInput: AnyObject {
-    // Navigation
+    func navigateToProductDetail(with productId: Int)
 }

@@ -17,11 +17,18 @@ class HomePresenter: HomeViewPresenterInput {
         self.view = view
         self.interactor = interactor
         self.router = router
-        (self.interactor as? HomeInteractor)?.output = self
+
+        if let homeInteractor = interactor as? HomeInteractor {
+            homeInteractor.output = self
+        }
     }
     
     func viewDidLoad() {
-        interactor.fetchProductsData(url: ProductConstant.BASE_URL)
+        interactor.fetchProductsData(page: 1)
+    }
+    
+    func didSelectProduct(withId productId: Int) {
+        router?.navigateToProductDetail(with: productId)
     }
 }
 
@@ -35,4 +42,5 @@ extension HomePresenter: HomeInteractorOutputs {
         }
     }
 }
+
 

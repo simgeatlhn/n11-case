@@ -12,9 +12,14 @@ class HomeInteractor: HomeInteractorInput {
     
     weak var output: HomeInteractorOutputs?
     
-    func fetchProductsData(url: String) {
-        AF.request(url, method: .get).validate().responseDecodable(of: ResponseData.self) { [weak self] response in
-            switch response.result {
+    func fetchProductsData(page: Int) {
+        guard let url = ProductConstant.listingURL(page: page) else {
+            output?.fetchedProductsData(result: .failure(NetworkError.invalidURL))
+            return
+        }
+        
+        NetworkManager.shared.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
+            switch result {
             case .success(let data):
                 self?.output?.fetchedProductsData(result: .success(data))
             case .failure(let error):
@@ -23,6 +28,4 @@ class HomeInteractor: HomeInteractorInput {
         }
     }
 }
-
-
 

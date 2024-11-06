@@ -10,7 +10,9 @@ import SnapKit
 
 final class HomeViewController: UIViewController {
     
-    private var searchTextField: UITextField = {
+    var presenter: HomeViewPresenterInput!
+    
+    private let searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = " Search "
         textField.borderStyle = .none
@@ -58,20 +60,12 @@ final class HomeViewController: UIViewController {
     private var sponsoredProducts: [SponsoredProductEntity] = []
     private var products: [ProductEntity] = []
     
-    // Presenter
-    var presenter: HomeViewPresenterInput!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupDelegates()
         makeUICordinate()
-        
-        if presenter == nil {
-            print("Presenter is nil")
-        } else {
-            presenter.viewDidLoad()
-        }
+        presenter.viewDidLoad()
     }
     
     private func setupUI() {
@@ -140,6 +134,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             updatePageControl()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let product = products[indexPath.row]
+        presenter.didSelectProduct(withId: product.id)
+    }
 }
 
 extension HomeViewController: HomeViewInputs {
@@ -154,8 +153,8 @@ extension HomeViewController: HomeViewInputs {
     }
     
     func showError(_ error: Error) {
-        let alert = UIAlertController(title: "error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         DispatchQueue.main.async { [weak self] in
             self?.present(alert, animated: true, completion: nil)
         }
