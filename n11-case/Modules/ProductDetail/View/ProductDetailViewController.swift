@@ -15,6 +15,7 @@ final class ProductDetailViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -236,7 +237,7 @@ extension ProductDetailViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(addToCartButton.snp.top).offset(-16)
         }
-
+        
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
@@ -246,7 +247,7 @@ extension ProductDetailViewController {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(320)
         }
-
+        
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
@@ -261,7 +262,7 @@ extension ProductDetailViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
         }
-
+        
         separatorView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -272,25 +273,25 @@ extension ProductDetailViewController {
             make.top.equalTo(separatorView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
         }
-        
         discountIcon.snp.makeConstraints { make in
             make.top.equalTo(priceLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(20)
             make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.bottom.equalTo(instantDiscountPriceLabel.snp.bottom)
         }
         
         discountLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(discountIcon)
+            make.top.equalTo(discountIcon.snp.top)
             make.leading.equalTo(discountIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(20)
         }
         
         instantDiscountPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(discountIcon.snp.bottom).offset(4)
+            make.top.equalTo(discountLabel.snp.bottom).offset(4)
             make.leading.equalTo(discountIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(20)
         }
+        
         
         bottomSeparatorView.snp.makeConstraints { make in
             make.top.equalTo(instantDiscountPriceLabel.snp.bottom).offset(8)
@@ -331,7 +332,7 @@ extension ProductDetailViewController {
         }
         
         tagDescriptionLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-16) 
+            make.bottom.equalToSuperview().offset(-16)
         }
     }
 }

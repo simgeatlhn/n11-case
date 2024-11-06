@@ -143,8 +143,8 @@
 		6021E99B2CDB77F100563A0F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6021E9B42CDBA73400563A0F /* Cell */,
 				6021E9A22CDB786D00563A0F /* ProductDetailViewController.swift */,
-				6021E9B22CDB976100563A0F /* ImageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,6 +195,14 @@
 				6021E9AF2CDB833B00563A0F /* NetworkManager.swift */,
 			);
 			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		6021E9B42CDBA73400563A0F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				6021E9B22CDB976100563A0F /* ImageCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		60C05FFE2CDA290C00522B3B = {
