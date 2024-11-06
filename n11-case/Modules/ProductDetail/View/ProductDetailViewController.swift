@@ -16,6 +16,15 @@ final class ProductDetailViewController: UIViewController {
     private let contentView = UIView()
     
     
+    private let topRightImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "firsat")
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -160,6 +169,7 @@ final class ProductDetailViewController: UIViewController {
     private func setupUI() {
         // Add scrollView and contentView
         view.addSubview(scrollView)
+        contentView.addSubview(topRightImageView)
         scrollView.addSubview(contentView)
         contentView.addSubview(collectionView)
         contentView.addSubview(pageControl)
@@ -232,6 +242,12 @@ extension ProductDetailViewController: ProductDetailViewInputs {
 
 extension ProductDetailViewController {
     private func makeUICoordinate() {
+        topRightImageView.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(16)
+            make.trailing.equalTo(contentView).inset(16)
+            make.width.height.equalTo(50) // Set your desired size
+        }
+        
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
