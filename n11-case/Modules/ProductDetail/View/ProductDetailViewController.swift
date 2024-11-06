@@ -15,7 +15,6 @@ final class ProductDetailViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
-    
     private let topRightImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "firsat")
@@ -245,7 +244,7 @@ extension ProductDetailViewController {
         topRightImageView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).inset(16)
-            make.width.height.equalTo(50) // Set your desired size
+            make.width.height.equalTo(50)
         }
         
         scrollView.snp.makeConstraints { make in
