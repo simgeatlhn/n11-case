@@ -25,30 +25,7 @@ class ProductCell: UICollectionViewCell {
         return label
     }()
     
-    private let starsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 2
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        for _ in 1...5 {
-            let starImageView = UIImageView(image: UIImage(systemName: "star.fill"))
-            starImageView.tintColor = .systemYellow
-            starImageView.contentMode = .scaleAspectFit
-            stackView.addArrangedSubview(starImageView)
-            starImageView.snp.makeConstraints { make in
-                make.width.height.equalTo(12)
-            }
-        }
-        return stackView
-    }()
-    
-    private let rateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .gray
-        return label
-    }()
+    private let starRatingView = StarRatingView()
     
     private let cartIconContainerView: UIView = {
         let view = UIView()
@@ -135,13 +112,8 @@ class ProductCell: UICollectionViewCell {
             imageView.kf.setImage(with: url)
         }
         
-        if let rate = product.rate {
-            rateLabel.text = String(format: "(%.1f)", rate)
-        } else {
-            rateLabel.text = "(0)"
-        }
+        starRatingView.configure(rate: product.rate ?? 0)
         
-        // Fiyat Ayarlama
         if let instantDiscountPrice = product.instantDiscountPrice {
             let originalPriceText = String(format: "%.2f TL", product.price)
             let attributeString = NSMutableAttributedString(string: originalPriceText)
@@ -169,14 +141,12 @@ class ProductCell: UICollectionViewCell {
     private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(starsStackView)
-        contentView.addSubview(rateLabel)
+        contentView.addSubview(starRatingView)
         contentView.addSubview(cartIconContainerView)
         contentView.addSubview(priceLabel)
         contentView.addSubview(instantDiscountPriceLabel)
         contentView.addSubview(extraDiscountView)
         contentView.addSubview(sellerNameLabel)
-        
         cartIconContainerView.addSubview(cartIconImageView)
         extraDiscountView.addSubview(extraDiscountImageView)
         extraDiscountView.addSubview(extraDiscountLabel)
@@ -197,19 +167,14 @@ extension ProductCell {
             make.leading.trailing.equalToSuperview().inset(4)
         }
         
-        starsStackView.snp.makeConstraints { make in
+        starRatingView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(4)
             make.height.equalTo(16)
         }
         
-        rateLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(starsStackView)
-            make.leading.equalTo(starsStackView.snp.trailing).offset(4)
-        }
-        
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(starsStackView.snp.bottom).offset(4)
+            make.top.equalTo(starRatingView.snp.bottom).offset(4)
             make.leading.equalTo(cartIconContainerView.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-4)
         }
@@ -260,4 +225,3 @@ extension ProductCell {
         }
     }
 }
-

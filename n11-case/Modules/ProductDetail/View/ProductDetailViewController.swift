@@ -11,7 +11,6 @@ import SnapKit
 final class ProductDetailViewController: UIViewController {
     
     var presenter: ProductDetailPresenterInput!
-    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
@@ -60,22 +59,7 @@ final class ProductDetailViewController: UIViewController {
         return label
     }()
     
-    // Yeni eklenen yıldızlar ve rate etiketi
-    private let starsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 2
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
-    }()
-    
-    private let rateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .gray
-        return label
-    }()
+    private let starRatingView = StarRatingView()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
@@ -171,7 +155,7 @@ final class ProductDetailViewController: UIViewController {
         label.textAlignment = .left
         return label
     }()
-
+    
     private let addToCartButton: UIButton = {
         let button = UIButton()
         button.setTitle("Sepete Ekle", for: .normal)
@@ -218,11 +202,7 @@ final class ProductDetailViewController: UIViewController {
         contentView.addSubview(collectionView)
         contentView.addSubview(pageControl)
         contentView.addSubview(titleLabel)
-        
-        // Yeni eklenen yıldızlar ve rate etiketi
-        contentView.addSubview(starsStackView)
-        contentView.addSubview(rateLabel)
-        
+        contentView.addSubview(starRatingView)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(separatorView)
         contentView.addSubview(priceLabel)
@@ -273,13 +253,11 @@ extension ProductDetailViewController: ProductDetailViewInputs {
         pageControl.numberOfPages = imageUrls.count
         sellerLabel.text = product.sellerName
         collectionView.reloadData()
-
+        
         if let rate = product.rate {
-            rateLabel.text = String(format: "%.1f", rate)
-            setupStars(rate: rate)
+            starRatingView.configure(rate: rate)
         } else {
-            rateLabel.text = "0.0"
-            setupStars(rate: 0)
+            starRatingView.configure(rate: 0)
         }
     }
     
@@ -290,15 +268,15 @@ extension ProductDetailViewController: ProductDetailViewInputs {
     }
     
     private func formatPrice(_ price: Double) -> String {
-          let formatter = NumberFormatter()
-          formatter.numberStyle = .currency
-          formatter.currencySymbol = ""
-          if let formattedPrice = formatter.string(from: NSNumber(value: price)) {
-              let trimmedPrice = formattedPrice.trimmingCharacters(in: .whitespaces)
-              return "\(trimmedPrice) TL"
-          }
-          return String(format: "%.2f TL", price)
-      }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = ""
+        if let formattedPrice = formatter.string(from: NSNumber(value: price)) {
+            let trimmedPrice = formattedPrice.trimmingCharacters(in: .whitespaces)
+            return "\(trimmedPrice) TL"
+        }
+        return String(format: "%.2f TL", price)
+    }
 }
 
 extension ProductDetailViewController {
@@ -342,19 +320,14 @@ extension ProductDetailViewController {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        starsStackView.snp.makeConstraints { make in
+        starRatingView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.equalToSuperview().inset(20)
             make.height.equalTo(16)
         }
         
-        rateLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(starsStackView)
-            make.leading.equalTo(starsStackView.snp.trailing).offset(4)
-        }
-        
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(starsStackView.snp.bottom).offset(8)
+            make.top.equalTo(starRatingView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -410,7 +383,7 @@ extension ProductDetailViewController {
             make.top.equalTo(tagDescriptionLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
         }
-
+        
         sellerLabel.snp.makeConstraints { make in
             make.top.equalTo(productFeaturesTitleLabel.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -435,29 +408,3 @@ extension ProductDetailViewController {
         }
     }
 }
-
-extension ProductDetailViewController {
-    private func setupStars(rate: Double) {
-        starsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        for index in 1...5 {
-            let starImageView = UIImageView()
-            starImageView.translatesAutoresizingMaskIntoConstraints = false
-            if rate >= Double(index) {
-                starImageView.image = UIImage(systemName: "star.fill")
-            } else if rate >= Double(index) - 0.5 {
-                starImageView.image = UIImage(systemName: "star.lefthalf.fill")
-            } else {
-                starImageView.image = UIImage(systemName: "star")
-            }
-            starImageView.tintColor = .systemYellow
-            starImageView.contentMode = .scaleAspectFit
-            starsStackView.addArrangedSubview(starImageView)
-            
-            starImageView.snp.makeConstraints { make in
-                make.width.height.equalTo(12)
-            }
-        }
-    }
-}
-

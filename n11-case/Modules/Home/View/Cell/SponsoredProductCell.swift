@@ -17,14 +17,7 @@ class SponsoredProductCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let starsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 2
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
-    }()
+    private let starRatingView = StarRatingView()
     
     private let cartIconContainerView: UIView = {
         let view = UIView()
@@ -94,13 +87,6 @@ class SponsoredProductCell: UICollectionViewCell {
         return label
     }()
     
-    private let rateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .gray
-        return label
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -123,13 +109,7 @@ class SponsoredProductCell: UICollectionViewCell {
         priceLabel.attributedText = attributeString
         instantDiscountPriceLabel.text = String(format: "%.2f TL", product.instantDiscountPrice)
         
-        if let rate = product.rate {
-            rateLabel.text = "\(rate)"
-            setupStars(rate: rate)
-        } else {
-            rateLabel.text = ""
-            setupStars(rate: 0)
-        }
+        starRatingView.configure(rate: product.rate ?? 0)
     }
     
     private func setupUI() {
@@ -140,35 +120,10 @@ class SponsoredProductCell: UICollectionViewCell {
         contentView.addSubview(instantDiscountPriceLabel)
         contentView.addSubview(extraDiscountView)
         contentView.addSubview(freeShippingLabel)
-        contentView.addSubview(starsStackView)
-        contentView.addSubview(rateLabel)
-        
+        contentView.addSubview(starRatingView)
         cartIconContainerView.addSubview(cartIconImageView)
         extraDiscountView.addSubview(extraDiscountImageView)
         extraDiscountView.addSubview(extraDiscountLabel)
-    }
-    
-    private func setupStars(rate: Double) {
-        starsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        for index in 1...5 {
-            let starImageView = UIImageView()
-            starImageView.translatesAutoresizingMaskIntoConstraints = false
-            if rate >= Double(index) {
-                starImageView.image = UIImage(systemName: "star.fill")
-            } else if rate >= Double(index) - 0.5 {
-                starImageView.image = UIImage(systemName: "star.lefthalf.fill")
-            } else {
-                starImageView.image = UIImage(systemName: "star")
-            }
-            starImageView.tintColor = .systemYellow
-            starImageView.contentMode = .scaleAspectFit
-            starsStackView.addArrangedSubview(starImageView)
-            
-            starImageView.snp.makeConstraints { make in
-                make.width.height.equalTo(12)
-            }
-        }
     }
 }
 
@@ -179,6 +134,14 @@ extension SponsoredProductCell {
             make.leading.equalToSuperview().offset(8)
             make.width.equalTo(160)
             make.height.equalTo(160)
+        }
+        
+        starRatingView.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(4)
+            make.centerX.equalTo(imageView)
+            make.height.equalTo(16)
+            make.leading.greaterThanOrEqualTo(imageView.snp.leading)
+            make.trailing.lessThanOrEqualTo(imageView.snp.trailing)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -232,19 +195,6 @@ extension SponsoredProductCell {
         freeShippingLabel.snp.makeConstraints { make in
             make.top.equalTo(extraDiscountView.snp.bottom).offset(12)
             make.leading.equalTo(cartIconContainerView)
-        }
-        
-        starsStackView.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(4)
-            make.centerX.equalTo(imageView)
-            make.height.equalTo(16)
-            make.leading.greaterThanOrEqualTo(imageView.snp.leading)
-            make.trailing.lessThanOrEqualTo(imageView.snp.trailing)
-        }
-        
-        rateLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(starsStackView)
-            make.leading.equalTo(starsStackView.snp.trailing).offset(4)
         }
     }
 }
