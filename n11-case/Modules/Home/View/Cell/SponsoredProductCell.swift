@@ -98,20 +98,18 @@ class SponsoredProductCell: UICollectionViewCell {
     }
     
     func configure(with product: SponsoredProductEntity) {
+        starRatingView.configure(rate: product.rate ?? 0)
+        titleLabel.text = product.title
         if let url = URL(string: product.imageUrl) {
             imageView.kf.setImage(with: url)
         }
-        
-        titleLabel.text = product.title
-        let priceText = String(format: "%.2f TL", product.price)
-        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: priceText)
+        let formattedPrice = PriceFormatter.formatPrice(product.price)
+        let attributeString = NSMutableAttributedString(string: formattedPrice)
         attributeString.addAttribute(.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
         priceLabel.attributedText = attributeString
-        instantDiscountPriceLabel.text = String(format: "%.2f TL", product.instantDiscountPrice)
-        
-        starRatingView.configure(rate: product.rate ?? 0)
+        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice)
     }
-    
+
     private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)

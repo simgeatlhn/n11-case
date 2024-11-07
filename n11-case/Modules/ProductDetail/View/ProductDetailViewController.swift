@@ -247,35 +247,19 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
 extension ProductDetailViewController: ProductDetailViewInputs {
     func displayProductDetails(_ product: ProductDetailEntity) {
         titleLabel.text = product.title
-        priceLabel.text = formatPrice(product.price)
-        instantDiscountPriceLabel.text = formatPrice(product.instantDiscountPrice)
+        priceLabel.text = PriceFormatter.formatPrice(product.price)
+        starRatingView.configure(rate: product.rate ?? 0)
+        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice)
         imageUrls = product.images
         pageControl.numberOfPages = imageUrls.count
         sellerLabel.text = product.sellerName
         collectionView.reloadData()
-        
-        if let rate = product.rate {
-            starRatingView.configure(rate: rate)
-        } else {
-            starRatingView.configure(rate: 0)
-        }
     }
     
     func showError(_ error: Error) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
-    }
-    
-    private func formatPrice(_ price: Double) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencySymbol = ""
-        if let formattedPrice = formatter.string(from: NSNumber(value: price)) {
-            let trimmedPrice = formattedPrice.trimmingCharacters(in: .whitespaces)
-            return "\(trimmedPrice) TL"
-        }
-        return String(format: "%.2f TL", price)
     }
 }
 

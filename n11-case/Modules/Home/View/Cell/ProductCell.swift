@@ -107,36 +107,24 @@ class ProductCell: UICollectionViewCell {
     func configure(with product: ProductEntity) {
         titleLabel.text = product.title
         sellerNameLabel.text = product.sellerName
-        
+        starRatingView.configure(rate: product.rate ?? 0)
         if let url = URL(string: product.imageUrl) {
             imageView.kf.setImage(with: url)
         }
-        
-        starRatingView.configure(rate: product.rate ?? 0)
-        
-        if let instantDiscountPrice = product.instantDiscountPrice {
-            let originalPriceText = String(format: "%.2f TL", product.price)
-            let attributeString = NSMutableAttributedString(string: originalPriceText)
-            attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-            priceLabel.attributedText = attributeString
-            
-            instantDiscountPriceLabel.text = String(format: "%.2f TL", instantDiscountPrice)
-            
-            if instantDiscountPrice >= 100 {
-                let discountedPrice = instantDiscountPrice - 100
-                extraDiscountPriceLabel.text = String(format: "%.2f TL", max(discountedPrice, 0))
-                extraDiscountView.isHidden = false
-            } else {
-                extraDiscountPriceLabel.text = String(format: "%.2f TL", instantDiscountPrice)
-                extraDiscountView.isHidden = false
-            }
+        let formattedPrice = PriceFormatter.formatPrice(product.price)
+        let attributeString = NSMutableAttributedString(string: formattedPrice)
+        attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        priceLabel.attributedText = attributeString
+        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice ?? product.price)
+        if let instantDiscountPrice = product.instantDiscountPrice, instantDiscountPrice >= 100 {
+            let discountedPrice = PriceFormatter.formatPrice(max(instantDiscountPrice - 100, 0))
+            extraDiscountPriceLabel.text = discountedPrice
+            extraDiscountView.isHidden = false
         } else {
-            let priceText = String(format: "%.2f TL", product.price)
-            priceLabel.text = priceText
-            instantDiscountPriceLabel.text = priceText
             extraDiscountView.isHidden = true
         }
     }
+
     
     private func setupUI() {
         contentView.addSubview(imageView)
