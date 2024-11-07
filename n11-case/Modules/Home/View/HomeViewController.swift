@@ -19,12 +19,12 @@ final class HomeViewController: UIViewController {
         textField.placeholder = " Search "
         textField.borderStyle = .none
         textField.returnKeyType = .search
-        textField.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        textField.backgroundColor = .customGrayColor
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 16)
         let iconView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
-        iconView.tintColor = UIColor.gray
+        iconView.tintColor = .gray
         iconView.contentMode = .scaleAspectFit
         iconView.frame = CGRect(x: 8, y: 0, width: 16, height: 16)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 16))

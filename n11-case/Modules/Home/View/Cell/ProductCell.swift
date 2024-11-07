@@ -52,7 +52,7 @@ class ProductCell: UICollectionViewCell {
     
     private let cartIconContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .customPurpleColor
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
@@ -82,7 +82,7 @@ class ProductCell: UICollectionViewCell {
     
     private let extraDiscountView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 0.5)
+        view.backgroundColor = .customYellowColor
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
@@ -91,7 +91,7 @@ class ProductCell: UICollectionViewCell {
     private let extraDiscountImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bolt.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = .black
         return imageView
     }()
     
@@ -99,14 +99,14 @@ class ProductCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Sepette Ek İndirim"
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .white
+        label.textColor = .black
         return label
     }()
     
     private let extraDiscountPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.textColor = .white
+        label.textColor = .black
         return label
     }()
     

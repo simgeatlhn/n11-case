@@ -54,7 +54,7 @@ final class TabBarController: UITabBarController {
                                              selectedImage: UIImage(systemName: "person.fill"))
         
         viewControllers = [homeNav, categoriesNav, cartNav, listsNav, accountNav]
-        tabBar.tintColor = .black
+        tabBar.tintColor = .customPurpleColor
         tabBar.unselectedItemTintColor = .gray
     }
 }

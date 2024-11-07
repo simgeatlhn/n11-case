@@ -28,7 +28,7 @@ class SponsoredProductCell: UICollectionViewCell {
     
     private let cartIconContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .customPurpleColor
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
@@ -65,7 +65,7 @@ class SponsoredProductCell: UICollectionViewCell {
     
     private let extraDiscountView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 232/255, green: 244/255, blue: 253/255, alpha: 1)
+        view.backgroundColor = .customBlueColor
         view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
