@@ -15,13 +15,21 @@ final class ProductDetailViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
-    private let topRightImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "firsat")
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 8
-        imageView.clipsToBounds = true
-        return imageView
+    private let offerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .customPurpleColor
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    private let offerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Fırsat Ürünü"
+        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        label.textColor = .yellow
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
     }()
     
     private let collectionView: UICollectionView = {
@@ -49,6 +57,23 @@ final class ProductDetailViewController: UIViewController {
         label.textColor = .black
         label.textAlignment = .left
         label.numberOfLines = 0
+        return label
+    }()
+    
+    // Yeni eklenen yıldızlar ve rate etiketi
+    private let starsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 2
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    private let rateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .gray
         return label
     }()
     
@@ -81,7 +106,7 @@ final class ProductDetailViewController: UIViewController {
     private let discountIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bolt.fill")
-        imageView.tintColor = .systemGreen
+        imageView.tintColor = .customPurpleColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -89,7 +114,7 @@ final class ProductDetailViewController: UIViewController {
     private let discountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .systemGreen
+        label.textColor = .customPurpleColor
         label.text = "Sepette İndirim"
         label.numberOfLines = 1
         label.textAlignment = .left
@@ -115,7 +140,7 @@ final class ProductDetailViewController: UIViewController {
     private let tagIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bell.badge.fill")
-        imageView.tintColor = .systemGreen
+        imageView.tintColor = .customPurpleColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -129,6 +154,24 @@ final class ProductDetailViewController: UIViewController {
         return label
     }()
     
+    private let productFeaturesTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.textColor = .black
+        label.textAlignment = .left
+        label.text = "Satıcı Bilgisi"
+        return label
+    }()
+    
+    private let sellerLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .black
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        return label
+    }()
+
     private let addToCartButton: UIButton = {
         let button = UIButton()
         button.setTitle("Sepete Ekle", for: .normal)
@@ -144,7 +187,7 @@ final class ProductDetailViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Hemen Al", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemGreen
+        button.backgroundColor = .customPurpleColor
         button.layer.cornerRadius = 8
         return button
     }()
@@ -169,11 +212,17 @@ final class ProductDetailViewController: UIViewController {
     private func setupUI() {
         // Add scrollView and contentView
         view.addSubview(scrollView)
-        contentView.addSubview(topRightImageView)
         scrollView.addSubview(contentView)
+        contentView.addSubview(offerView)
+        offerView.addSubview(offerLabel)
         contentView.addSubview(collectionView)
         contentView.addSubview(pageControl)
         contentView.addSubview(titleLabel)
+        
+        // Yeni eklenen yıldızlar ve rate etiketi
+        contentView.addSubview(starsStackView)
+        contentView.addSubview(rateLabel)
+        
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(separatorView)
         contentView.addSubview(priceLabel)
@@ -183,6 +232,8 @@ final class ProductDetailViewController: UIViewController {
         contentView.addSubview(bottomSeparatorView)
         contentView.addSubview(tagIcon)
         contentView.addSubview(tagDescriptionLabel)
+        contentView.addSubview(productFeaturesTitleLabel)
+        contentView.addSubview(sellerLabel)
         // Add buttons directly to the main view
         view.addSubview(addToCartButton)
         view.addSubview(buyNowButton)
@@ -220,7 +271,16 @@ extension ProductDetailViewController: ProductDetailViewInputs {
         instantDiscountPriceLabel.text = formatPrice(product.instantDiscountPrice)
         imageUrls = product.images
         pageControl.numberOfPages = imageUrls.count
+        sellerLabel.text = product.sellerName
         collectionView.reloadData()
+
+        if let rate = product.rate {
+            rateLabel.text = String(format: "%.1f", rate)
+            setupStars(rate: rate)
+        } else {
+            rateLabel.text = "0.0"
+            setupStars(rate: 0)
+        }
     }
     
     func showError(_ error: Error) {
@@ -230,29 +290,37 @@ extension ProductDetailViewController: ProductDetailViewInputs {
     }
     
     private func formatPrice(_ price: Double) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 2
-        if let formattedPrice = formatter.string(from: NSNumber(value: price)) {
-            return "\(formattedPrice) TL"
-        }
-        return "\(price) TL"
-    }
+          let formatter = NumberFormatter()
+          formatter.numberStyle = .currency
+          formatter.currencySymbol = ""
+          if let formattedPrice = formatter.string(from: NSNumber(value: price)) {
+              let trimmedPrice = formattedPrice.trimmingCharacters(in: .whitespaces)
+              return "\(trimmedPrice) TL"
+          }
+          return String(format: "%.2f TL", price)
+      }
 }
 
 extension ProductDetailViewController {
     private func makeUICoordinate() {
-        topRightImageView.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(16)
-            make.trailing.equalTo(contentView).inset(16)
-            make.width.height.equalTo(50)
-        }
-        
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(addToCartButton.snp.top).offset(-16)
         }
+        
+        offerView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().inset(20)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        
+        offerLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.bringSubviewToFront(offerView)
         
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -274,8 +342,19 @@ extension ProductDetailViewController {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        descriptionLabel.snp.makeConstraints { make in
+        starsStackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(20)
+            make.height.equalTo(16)
+        }
+        
+        rateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(starsStackView)
+            make.leading.equalTo(starsStackView.snp.trailing).offset(4)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(starsStackView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -289,6 +368,7 @@ extension ProductDetailViewController {
             make.top.equalTo(separatorView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
         }
+        
         discountIcon.snp.makeConstraints { make in
             make.top.equalTo(priceLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(20)
@@ -308,7 +388,6 @@ extension ProductDetailViewController {
             make.trailing.equalToSuperview().inset(20)
         }
         
-        
         bottomSeparatorView.snp.makeConstraints { make in
             make.top.equalTo(instantDiscountPriceLabel.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -327,23 +406,27 @@ extension ProductDetailViewController {
             make.trailing.equalToSuperview().inset(20)
         }
         
+        productFeaturesTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(tagDescriptionLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+
+        sellerLabel.snp.makeConstraints { make in
+            make.top.equalTo(productFeaturesTitleLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
         addToCartButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.height.equalTo(44)
             make.width.equalTo(buyNowButton)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         buyNowButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(44)
             make.leading.equalTo(addToCartButton.snp.trailing).offset(16)
-        }
-        
-        addToCartButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-        }
-        
-        buyNowButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
@@ -352,3 +435,29 @@ extension ProductDetailViewController {
         }
     }
 }
+
+extension ProductDetailViewController {
+    private func setupStars(rate: Double) {
+        starsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        for index in 1...5 {
+            let starImageView = UIImageView()
+            starImageView.translatesAutoresizingMaskIntoConstraints = false
+            if rate >= Double(index) {
+                starImageView.image = UIImage(systemName: "star.fill")
+            } else if rate >= Double(index) - 0.5 {
+                starImageView.image = UIImage(systemName: "star.lefthalf.fill")
+            } else {
+                starImageView.image = UIImage(systemName: "star")
+            }
+            starImageView.tintColor = .systemYellow
+            starImageView.contentMode = .scaleAspectFit
+            starsStackView.addArrangedSubview(starImageView)
+            
+            starImageView.snp.makeConstraints { make in
+                make.width.height.equalTo(12)
+            }
+        }
+    }
+}
+

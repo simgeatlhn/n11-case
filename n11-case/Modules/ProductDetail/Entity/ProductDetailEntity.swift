@@ -13,7 +13,7 @@ struct ProductDetailEntity: Codable {
     let images: [String]
     let price: Double
     let instantDiscountPrice: Double
-    let rate: Double
+    let rate: Double?
     let sellerName: String
 }
 
