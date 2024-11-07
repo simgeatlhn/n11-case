@@ -22,12 +22,14 @@ class ProductDetailPresenter: ProductDetailPresenterInput {
     }
     
     func viewDidLoad() {
+        view?.showLoadingIndicator(true) // Loading
         interactor.fetchProductDetail(productId: productId)
     }
 }
 
 extension ProductDetailPresenter: ProductDetailInteractorOutput {
     func fetchedProductDetail(result: Result<ProductDetailEntity, Error>) {
+        view?.showLoadingIndicator(false)
         switch result {
         case .success(let productDetail):
             view?.displayProductDetails(productDetail)
@@ -36,4 +38,3 @@ extension ProductDetailPresenter: ProductDetailInteractorOutput {
         }
     }
 }
-

@@ -19,6 +19,7 @@ class HomePresenter: HomeViewPresenterInput {
     }
     
     func viewDidLoad() {
+        view?.showLoadingIndicator(true)
         interactor.fetchProductsData(page: 1)
     }
     
@@ -27,12 +28,14 @@ class HomePresenter: HomeViewPresenterInput {
     }
     
     func searchProducts(with query: String) {
+        view?.showLoadingIndicator(true)
         interactor.searchProducts(with: query)
     }
 }
 
 extension HomePresenter: HomeInteractorOutputs {
     func fetchedProductsData(result: Result<ResponseData, Error>) {
+        view?.showLoadingIndicator(false)
         switch result {
         case .success(let responseData):
             view?.reloadData(responseData: responseData)
@@ -42,6 +45,7 @@ extension HomePresenter: HomeInteractorOutputs {
     }
     
     func filteredProductsData(_ products: [ProductEntity]) {
+        view?.showLoadingIndicator(false)
         view?.updateFilteredProducts(products)
     }
 }

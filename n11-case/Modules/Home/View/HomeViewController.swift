@@ -14,6 +14,13 @@ final class HomeViewController: UIViewController {
     private var sponsoredProducts: [SponsoredProductEntity] = []
     private var products: [ProductEntity] = []
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .customPurpleColor
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     private let searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = " Search "
@@ -77,6 +84,7 @@ final class HomeViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
+        view.addSubview(loadingIndicator)
         view.addSubview(searchTextField)
         view.addSubview(sponsoredProductsCollectionView)
         view.addSubview(pageControl)
@@ -165,6 +173,18 @@ extension HomeViewController: HomeViewInputs {
         }
     }
     
+    func showLoadingIndicator(_ show: Bool) {
+        if show {
+            loadingIndicator.isHidden = false
+            loadingIndicator.startAnimating()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+            }
+        }
+    }
+    
     func updateFilteredProducts(_ products: [ProductEntity]) {
         self.products = products
         DispatchQueue.main.async { [weak self] in
@@ -184,6 +204,10 @@ extension HomeViewController: HomeViewInputs {
 // MARK: UI Draw
 extension HomeViewController {
     func makeUICordinate() {
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.trailing.equalToSuperview().inset(16)

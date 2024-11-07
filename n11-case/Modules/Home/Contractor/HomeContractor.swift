@@ -27,9 +27,9 @@ protocol HomeViewInputs: AnyObject {
     func reloadData(responseData: ResponseData)
     func showError(_ error: Error)
     func updateFilteredProducts(_ products: [ProductEntity])
+    func showLoadingIndicator(_ show: Bool)
 }
 
 protocol HomeRouterInput: AnyObject {
     func navigateToProductDetail(with productId: Int)
 }
-

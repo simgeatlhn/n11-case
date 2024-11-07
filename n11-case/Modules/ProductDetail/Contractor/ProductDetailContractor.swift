@@ -10,6 +10,7 @@ import Foundation
 protocol ProductDetailViewInputs: AnyObject {
     func displayProductDetails(_ product: ProductDetailEntity)
     func showError(_ error: Error)
+    func showLoadingIndicator(_ show: Bool)
 }
 
 protocol ProductDetailPresenterInput: AnyObject {

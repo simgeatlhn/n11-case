@@ -14,6 +14,13 @@ final class ProductDetailViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .customPurpleColor
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     private let offerView: UIView = {
         let view = UIView()
         view.backgroundColor = .customPurpleColor
@@ -196,6 +203,7 @@ final class ProductDetailViewController: UIViewController {
     private func setupUI() {
         // Add scrollView and contentView
         view.addSubview(scrollView)
+        view.addSubview(loadingIndicator)
         scrollView.addSubview(contentView)
         contentView.addSubview(offerView)
         offerView.addSubview(offerLabel)
@@ -245,6 +253,18 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
 }
 
 extension ProductDetailViewController: ProductDetailViewInputs {
+    func showLoadingIndicator(_ show: Bool) {
+        if show {
+            loadingIndicator.startAnimating()
+            loadingIndicator.isHidden = false
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+            }
+        }
+    }
+    
     func displayProductDetails(_ product: ProductDetailEntity) {
         titleLabel.text = product.title
         priceLabel.text = PriceFormatter.formatPrice(product.price)
@@ -269,6 +289,10 @@ extension ProductDetailViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(addToCartButton.snp.top).offset(-16)
+        }
+        
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
         
         offerView.snp.makeConstraints { make in
