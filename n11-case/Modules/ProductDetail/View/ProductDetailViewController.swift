@@ -189,6 +189,7 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.hidesBottomBarWhenPushed = true
+        navigationController?.navigationBar.tintColor = .customPurpleColor
         setupUI()
         setupDelegates()
         makeUICoordinate()
