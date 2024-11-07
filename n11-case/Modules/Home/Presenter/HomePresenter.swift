@@ -8,7 +8,6 @@
 import Foundation
 
 class HomePresenter: HomeViewPresenterInput {
-    
     weak var view: HomeViewInputs?
     var interactor: HomeInteractorInput
     var router: HomeRouterInput?
@@ -17,10 +16,6 @@ class HomePresenter: HomeViewPresenterInput {
         self.view = view
         self.interactor = interactor
         self.router = router
-
-        if let homeInteractor = interactor as? HomeInteractor {
-            homeInteractor.output = self
-        }
     }
     
     func viewDidLoad() {
@@ -29,6 +24,10 @@ class HomePresenter: HomeViewPresenterInput {
     
     func didSelectProduct(withId productId: Int) {
         router?.navigateToProductDetail(with: productId)
+    }
+    
+    func searchProducts(with query: String) {
+        interactor.searchProducts(with: query)
     }
 }
 
@@ -41,6 +40,8 @@ extension HomePresenter: HomeInteractorOutputs {
             view?.showError(error)
         }
     }
+    
+    func filteredProductsData(_ products: [ProductEntity]) {
+        view?.updateFilteredProducts(products)
+    }
 }
-
-

@@ -11,6 +11,8 @@ import SnapKit
 final class HomeViewController: UIViewController {
     
     var presenter: HomeViewPresenterInput!
+    private var sponsoredProducts: [SponsoredProductEntity] = []
+    private var products: [ProductEntity] = []
     
     private let searchTextField: UITextField = {
         let textField = UITextField()
@@ -21,8 +23,17 @@ final class HomeViewController: UIViewController {
         textField.layer.cornerRadius = 8
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 16)
+        let iconView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        iconView.tintColor = UIColor.gray
+        iconView.contentMode = .scaleAspectFit
+        iconView.frame = CGRect(x: 8, y: 0, width: 16, height: 16)
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 16))
+        paddingView.addSubview(iconView)
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         return textField
     }()
+    
     
     private lazy var sponsoredProductsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,10 +67,6 @@ final class HomeViewController: UIViewController {
         return collectionView
     }()
     
-    // Data
-    private var sponsoredProducts: [SponsoredProductEntity] = []
-    private var products: [ProductEntity] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -74,6 +81,7 @@ final class HomeViewController: UIViewController {
         view.addSubview(sponsoredProductsCollectionView)
         view.addSubview(pageControl)
         view.addSubview(productsCollectionView)
+        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
     }
     
     private func setupDelegates() {
@@ -81,6 +89,11 @@ final class HomeViewController: UIViewController {
         sponsoredProductsCollectionView.dataSource = self
         productsCollectionView.delegate = self
         productsCollectionView.dataSource = self
+    }
+    
+    @objc private func searchTextChanged() {
+        guard let searchText = searchTextField.text else { return }
+        presenter.searchProducts(with: searchText)
     }
     
     private func updatePageControl() {
@@ -149,6 +162,13 @@ extension HomeViewController: HomeViewInputs {
             self?.sponsoredProductsCollectionView.reloadData()
             self?.productsCollectionView.reloadData()
             self?.pageControl.numberOfPages = self?.sponsoredProducts.count ?? 0
+        }
+    }
+    
+    func updateFilteredProducts(_ products: [ProductEntity]) {
+        self.products = products
+        DispatchQueue.main.async { [weak self] in
+            self?.productsCollectionView.reloadData()
         }
     }
     
