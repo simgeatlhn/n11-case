@@ -21,26 +21,42 @@ final class HomeViewController: UIViewController {
         return indicator
     }()
     
+    private let searchContainerView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.customGrayColor.cgColor
+        view.backgroundColor = .customGrayColor
+        return view
+    }()
+    
+    private let searchIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "magnifyingglass")
+        imageView.tintColor = .gray
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     private let searchTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Search "
+        textField.placeholder = "Ürünleri ara.."
         textField.borderStyle = .none
         textField.returnKeyType = .search
-        textField.backgroundColor = .customGrayColor
-        textField.layer.cornerRadius = 8
-        textField.layer.masksToBounds = true
+        textField.backgroundColor = .clear
         textField.font = UIFont.systemFont(ofSize: 16)
-        let iconView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
-        iconView.tintColor = .gray
-        iconView.contentMode = .scaleAspectFit
-        iconView.frame = CGRect(x: 8, y: 0, width: 16, height: 16)
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 16))
-        paddingView.addSubview(iconView)
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
+        textField.autocapitalizationType = .none
+        
         return textField
     }()
     
+    private let topImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "image")
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
     private lazy var sponsoredProductsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -85,10 +101,13 @@ final class HomeViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(loadingIndicator)
-        view.addSubview(searchTextField)
+        view.addSubview(searchContainerView)
         view.addSubview(sponsoredProductsCollectionView)
         view.addSubview(pageControl)
         view.addSubview(productsCollectionView)
+        searchContainerView.addSubview(topImageView)
+        searchContainerView.addSubview(searchIconImageView)
+        searchContainerView.addSubview(searchTextField)
         searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
     }
     
@@ -145,7 +164,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == sponsoredProductsCollectionView {
             return CGSize(width: collectionView.frame.width, height: 200)
         } else {
-            let width = (collectionView.frame.width - 8) / 2
+            let width = (collectionView.frame.width - 16) / 2
             return CGSize(width: width, height: width + 150)
         }
     }
@@ -201,21 +220,40 @@ extension HomeViewController: HomeViewInputs {
     }
 }
 
-// MARK: UI Draw
 extension HomeViewController {
     func makeUICordinate() {
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
-        searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.trailing.equalToSuperview().inset(16)
+        searchContainerView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
+            make.leading.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(16)
             make.height.equalTo(40)
         }
         
+        topImageView.snp.makeConstraints { make in
+            make.leading.equalTo(searchContainerView).offset(8)
+            make.centerY.equalTo(searchContainerView)
+            make.width.height.equalTo(100)
+        }
+        
+        searchIconImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(searchContainerView).inset(8)
+            make.centerY.equalTo(searchContainerView)
+            make.width.height.equalTo(20)
+        }
+        
+        searchTextField.snp.makeConstraints { make in
+            make.leading.equalTo(topImageView.snp.trailing).offset(2)
+            make.trailing.equalTo(searchIconImageView.snp.leading).offset(-2)
+            make.centerY.equalTo(searchContainerView)
+            make.height.equalTo(searchContainerView)
+        }
+        
         sponsoredProductsCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom).offset(10)
+            make.top.equalTo(searchContainerView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(200)
         }
@@ -227,8 +265,7 @@ extension HomeViewController {
         
         productsCollectionView.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview().inset(8)
+            make.leading.trailing.bottom.equalToSuperview().inset(16)
         }
     }
 }
-
