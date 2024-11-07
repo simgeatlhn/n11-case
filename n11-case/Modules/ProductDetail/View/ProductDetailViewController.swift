@@ -209,7 +209,6 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func setupUI() {
-        // Add scrollView and contentView
         view.addSubview(scrollView)
         view.addSubview(loadingIndicator)
         scrollView.addSubview(contentView)
@@ -223,15 +222,14 @@ final class ProductDetailViewController: UIViewController {
         contentView.addSubview(separatorView)
         contentView.addSubview(priceLabel)
         contentView.addSubview(discountContainerView)
-        discountContainerView.addSubview(discountIcon)
-        discountContainerView.addSubview(discountLabel)
-        discountContainerView.addSubview(instantDiscountPriceLabel)
+        contentView.addSubview(discountIcon)
+        contentView.addSubview(discountLabel)
+        contentView.addSubview(instantDiscountPriceLabel)
         contentView.addSubview(bottomSeparatorView)
         contentView.addSubview(tagIcon)
         contentView.addSubview(tagDescriptionLabel)
         contentView.addSubview(productFeaturesTitleLabel)
         contentView.addSubview(sellerLabel)
-        // Add buttons directly to the main view
         view.addSubview(addToCartButton)
         view.addSubview(buyNowButton)
     }
@@ -382,9 +380,8 @@ extension ProductDetailViewController {
             make.centerY.equalTo(discountContainerView)
         }
         
-        
         bottomSeparatorView.snp.makeConstraints { make in
-            make.top.equalTo(discountContainerView.snp.bottom).offset(8)
+            make.top.equalTo(discountContainerView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
@@ -399,6 +396,7 @@ extension ProductDetailViewController {
             make.centerY.equalTo(tagIcon)
             make.leading.equalTo(tagIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-16)
         }
         
         productFeaturesTitleLabel.snp.makeConstraints { make in
@@ -426,4 +424,3 @@ extension ProductDetailViewController {
         }
     }
 }
-
