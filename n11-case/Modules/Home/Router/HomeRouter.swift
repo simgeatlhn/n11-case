@@ -26,6 +26,7 @@ class HomeRouter: HomeRouterInput {
     
     func navigateToProductDetail(with productId: Int) {
         let detailViewController = ProductDetailRouter.createModule(productId: productId)
+        detailViewController.hidesBottomBarWhenPushed = true
         viewController?.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

@@ -154,6 +154,7 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.hidesBottomBarWhenPushed = true
         setupUI()
         setupDelegates()
         makeUICoordinate()
@@ -351,4 +352,3 @@ extension ProductDetailViewController {
         }
     }
 }
-

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductDetailRouter: ProductDetailRouterInput {
+final class ProductDetailRouter: ProductDetailRouterInput {
     
     weak var viewController: UIViewController?
     
@@ -28,4 +28,3 @@ class ProductDetailRouter: ProductDetailRouterInput {
         viewController?.navigationController?.popViewController(animated: true)
     }
 }
-
