@@ -94,6 +94,13 @@ final class ProductDetailViewController: UIViewController {
         return label
     }()
     
+    private let discountContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .customYellowColor
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
     private let discountIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bolt.fill")
@@ -112,12 +119,6 @@ final class ProductDetailViewController: UIViewController {
         return label
     }()
     
-    private let bottomSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray5
-        return view
-    }()
-    
     private let instantDiscountPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -126,6 +127,12 @@ final class ProductDetailViewController: UIViewController {
         label.numberOfLines = 1
         label.textAlignment = .left
         return label
+    }()
+    
+    private let bottomSeparatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray5
+        return view
     }()
     
     private let tagIcon: UIImageView = {
@@ -215,9 +222,10 @@ final class ProductDetailViewController: UIViewController {
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(separatorView)
         contentView.addSubview(priceLabel)
-        contentView.addSubview(discountIcon)
-        contentView.addSubview(discountLabel)
-        contentView.addSubview(instantDiscountPriceLabel)
+        contentView.addSubview(discountContainerView)
+        discountContainerView.addSubview(discountIcon)
+        discountContainerView.addSubview(discountLabel)
+        discountContainerView.addSubview(instantDiscountPriceLabel)
         contentView.addSubview(bottomSeparatorView)
         contentView.addSubview(tagIcon)
         contentView.addSubview(tagDescriptionLabel)
@@ -351,27 +359,32 @@ extension ProductDetailViewController {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        discountIcon.snp.makeConstraints { make in
+        discountContainerView.snp.makeConstraints { make in
             make.top.equalTo(priceLabel.snp.bottom).offset(16)
-            make.leading.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(44)
+        }
+        
+        discountIcon.snp.makeConstraints { make in
+            make.leading.equalTo(discountContainerView.snp.leading).offset(8)
+            make.centerY.equalTo(discountContainerView)
             make.width.equalTo(20)
-            make.bottom.equalTo(instantDiscountPriceLabel.snp.bottom)
+            make.height.equalTo(20)
         }
         
         discountLabel.snp.makeConstraints { make in
-            make.top.equalTo(discountIcon.snp.top)
             make.leading.equalTo(discountIcon.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().inset(20)
+            make.centerY.equalTo(discountContainerView)
         }
         
         instantDiscountPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(discountLabel.snp.bottom).offset(4)
-            make.leading.equalTo(discountIcon.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalTo(discountContainerView.snp.trailing).inset(8)
+            make.centerY.equalTo(discountContainerView)
         }
         
+        
         bottomSeparatorView.snp.makeConstraints { make in
-            make.top.equalTo(instantDiscountPriceLabel.snp.bottom).offset(8)
+            make.top.equalTo(discountContainerView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(1)
         }
@@ -411,9 +424,6 @@ extension ProductDetailViewController {
             make.leading.equalTo(addToCartButton.snp.trailing).offset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-        
-        tagDescriptionLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-16)
-        }
     }
 }
+
