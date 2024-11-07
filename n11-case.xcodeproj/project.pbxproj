@@ -322,9 +322,8 @@
 		60C060092CDA290C00522B3B /* n11-case */ = {
 			isa = PBXGroup;
 			children = (
-				6021E9B12CDB87C500563A0F /* NetworkManager */,
-				60C060542CDA6AA300522B3B /* Constant */,
-				60C060472CDA4D0800522B3B /* Core */,
+				60C060472CDA4D0800522B3B /* App */,
+				60C060542CDA6AA300522B3B /* Constants */,
 				60C060462CDA4CCC00522B3B /* Resources */,
 				60C0603A2CDA451000522B3B /* Modules */,
 				60C060102CDA290C00522B3B /* Main.storyboard */,
@@ -354,6 +353,7 @@
 		60C0603A2CDA451000522B3B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				6021E9B12CDB87C500563A0F /* NetworkManager */,
 				601725402CDCF096003E8D7E /* Formatters */,
 				6017253B2CDCE6B8003E8D7E /* Components */,
 				601725282CDCCBAB003E8D7E /* Splash */,
@@ -427,14 +427,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		60C060472CDA4D0800522B3B /* Core */ = {
+		60C060472CDA4D0800522B3B /* App */ = {
 			isa = PBXGroup;
 			children = (
 				60C0600C2CDA290C00522B3B /* SceneDelegate.swift */,
 				60C0600E2CDA290C00522B3B /* ViewController.swift */,
 				60C0600A2CDA290C00522B3B /* AppDelegate.swift */,
 			);
-			path = Core;
+			path = App;
 			sourceTree = "<group>";
 		};
 		60C0604A2CDA574000522B3B /* Contractor */ = {
@@ -445,13 +445,13 @@
 			path = Contractor;
 			sourceTree = "<group>";
 		};
-		60C060542CDA6AA300522B3B /* Constant */ = {
+		60C060542CDA6AA300522B3B /* Constants */ = {
 			isa = PBXGroup;
 			children = (
 				60C060552CDA6AB300522B3B /* ServiceConstant.swift */,
 				601725392CDCD83C003E8D7E /* Colors.swift */,
 			);
-			path = Constant;
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
