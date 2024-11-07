@@ -104,28 +104,6 @@ class ProductCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with product: ProductEntity) {
-        titleLabel.text = product.title
-        sellerNameLabel.text = product.sellerName
-        starRatingView.configure(rate: product.rate ?? 0)
-        if let url = URL(string: product.imageUrl) {
-            imageView.kf.setImage(with: url)
-        }
-        let formattedPrice = PriceFormatter.formatPrice(product.price)
-        let attributeString = NSMutableAttributedString(string: formattedPrice)
-        attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-        priceLabel.attributedText = attributeString
-        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice ?? product.price)
-        if let instantDiscountPrice = product.instantDiscountPrice, instantDiscountPrice >= 100 {
-            let discountedPrice = PriceFormatter.formatPrice(max(instantDiscountPrice - 100, 0))
-            extraDiscountPriceLabel.text = discountedPrice
-            extraDiscountView.isHidden = false
-        } else {
-            extraDiscountView.isHidden = true
-        }
-    }
-
-    
     private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
@@ -139,6 +117,31 @@ class ProductCell: UICollectionViewCell {
         extraDiscountView.addSubview(extraDiscountImageView)
         extraDiscountView.addSubview(extraDiscountLabel)
         extraDiscountView.addSubview(extraDiscountPriceLabel)
+    }
+}
+
+extension ProductCell {
+    func configure(with product: ProductEntity) {
+        titleLabel.text = product.title
+        sellerNameLabel.text = product.sellerName
+        starRatingView.configure(rate: product.rate ?? 0)
+        if let url = URL(string: product.imageUrl) {
+            imageView.kf.setImage(with: url)
+        }
+        
+        let formattedPrice = PriceFormatter.formatPrice(product.price)
+        let attributeString = NSMutableAttributedString(string: formattedPrice)
+        attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        priceLabel.attributedText = attributeString
+        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice ?? product.price)
+        
+        if let instantDiscountPrice = product.instantDiscountPrice, instantDiscountPrice >= 100 {
+            let discountedPrice = PriceFormatter.formatPrice(max(instantDiscountPrice - 100, 0))
+            extraDiscountPriceLabel.text = discountedPrice
+            extraDiscountView.isHidden = false
+        } else {
+            extraDiscountView.isHidden = true
+        }
     }
 }
 

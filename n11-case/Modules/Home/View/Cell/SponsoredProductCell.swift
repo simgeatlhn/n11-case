@@ -97,19 +97,6 @@ class SponsoredProductCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with product: SponsoredProductEntity) {
-        starRatingView.configure(rate: product.rate ?? 0)
-        titleLabel.text = product.title
-        if let url = URL(string: product.imageUrl) {
-            imageView.kf.setImage(with: url)
-        }
-        let formattedPrice = PriceFormatter.formatPrice(product.price)
-        let attributeString = NSMutableAttributedString(string: formattedPrice)
-        attributeString.addAttribute(.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-        priceLabel.attributedText = attributeString
-        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice)
-    }
-
     private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
@@ -122,6 +109,21 @@ class SponsoredProductCell: UICollectionViewCell {
         cartIconContainerView.addSubview(cartIconImageView)
         extraDiscountView.addSubview(extraDiscountImageView)
         extraDiscountView.addSubview(extraDiscountLabel)
+    }
+}
+
+extension SponsoredProductCell {
+    func configure(with product: SponsoredProductEntity) {
+        starRatingView.configure(rate: product.rate ?? 0)
+        titleLabel.text = product.title
+        if let url = URL(string: product.imageUrl) {
+            imageView.kf.setImage(with: url)
+        }
+        let formattedPrice = PriceFormatter.formatPrice(product.price)
+        let attributeString = NSMutableAttributedString(string: formattedPrice)
+        attributeString.addAttribute(.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+        priceLabel.attributedText = attributeString
+        instantDiscountPriceLabel.text = PriceFormatter.formatPrice(product.instantDiscountPrice)
     }
 }
 
