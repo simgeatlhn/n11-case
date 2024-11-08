@@ -9,7 +9,7 @@ import Foundation
 
 class HomeInteractor: HomeInteractorInput {
     
-    weak var output: HomeInteractorOutputs?
+    var output: HomeInteractorOutputs?
     var allProducts: [ProductEntity] = []
     var sponsoredProducts: [SponsoredProductEntity] = []
     private let networkService: NetworkServiceProtocol
@@ -23,7 +23,6 @@ class HomeInteractor: HomeInteractorInput {
             output?.fetchedProductsData(result: .failure(NetworkError.invalidURL))
             return
         }
-        
         networkService.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
             guard let self = self else { return }
             

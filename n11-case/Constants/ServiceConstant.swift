@@ -18,7 +18,12 @@ struct ProductConstant {
     
     // URL Builders
     static func listingURL(page: Int) -> URL? {
-        return URL(string: "\(baseURL)\(Endpoints.listing)\(page)")
+        let urlString = "\(baseURL)\(Endpoints.listing)\(page)"
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL: \(urlString)")
+            return nil
+        }
+        return url
     }
     
     static func productDetailURL(productId: Int) -> URL? {

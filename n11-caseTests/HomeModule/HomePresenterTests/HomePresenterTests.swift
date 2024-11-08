@@ -51,7 +51,8 @@ class HomePresenterTests: XCTestCase {
     func testFetchedProductsDataSuccess() {
         let responseData = ResponseData(
             page: "1",
-            nextPage: "2",
+            nextPage: "2", 
+            publishedAt: "",
             sponsoredProducts: [],
             products: []
         )
