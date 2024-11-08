@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case invalidURL
     case noData
     case decodingError
@@ -23,14 +23,14 @@ class NetworkManager {
     
     func fetchData<T: Decodable>(from url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         AF.request(url).validate().responseDecodable(of: T.self) { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    let networkError = error.toNetworkError(statusCode: response.response?.statusCode)
-                    completion(.failure(networkError))
-                }
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                let networkError = error.toNetworkError(statusCode: response.response?.statusCode)
+                completion(.failure(networkError))
             }
+        }
     }
 }
 

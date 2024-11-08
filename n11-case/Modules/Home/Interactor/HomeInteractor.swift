@@ -6,12 +6,16 @@
 //
 
 import Foundation
-import Alamofire
 
 class HomeInteractor: HomeInteractorInput {
     
     weak var output: HomeInteractorOutputs?
-    private var allProducts: [ProductEntity] = []
+    var allProducts: [ProductEntity] = []
+    private let networkService: NetworkServiceProtocol
+    
+    init(networkService: NetworkServiceProtocol = NetworkManager.shared) {
+        self.networkService = networkService
+    }
     
     func fetchProductsData(page: Int) {
         guard let url = ProductConstant.listingURL(page: page) else {
@@ -19,7 +23,7 @@ class HomeInteractor: HomeInteractorInput {
             return
         }
         
-        NetworkManager.shared.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
+        networkService.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
             switch result {
             case .success(let data):
                 self?.allProducts = data.products
@@ -32,7 +36,7 @@ class HomeInteractor: HomeInteractorInput {
     
     func searchProducts(with query: String) {
         if query.isEmpty {
-            output?.filteredProductsData(allProducts) // Arama kutusu boşsa tüm ürünleri gösteririz
+            output?.filteredProductsData(allProducts)
         } else {
             let filteredProducts = allProducts.filter { product in
                 product.title.lowercased().contains(query.lowercased())
@@ -41,5 +45,3 @@ class HomeInteractor: HomeInteractorInput {
         }
     }
 }
-
-
