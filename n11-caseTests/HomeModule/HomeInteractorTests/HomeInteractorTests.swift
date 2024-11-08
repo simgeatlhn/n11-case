@@ -13,6 +13,16 @@ class HomeInteractorTests: XCTestCase {
     var mockNetworkService: MockNetworkService!
     var mockOutput: MockHomeInteractorOutputs!
     
+    struct TestFailureMessage {
+        static let fetchedProductsDataNotCalled = "fetchedProductsData should be called"
+        static let fetchProductsMismatch = "Fetched products should match sample products"
+        static let successExpected = "Success was expected, but received a different result"
+        static let invalidURLErrorNotCalled = "Invalid URL error was expected, but received a different result"
+        static let filteredProductsDataNotCalled = "filteredProductsData should be called"
+        static let emptyQueryReturnedIncorrectCount = "An empty query should return all products"
+        static let queryResultMismatch = "All products containing the query should be returned"
+    }
+    
     override func setUp() {
         super.setUp()
         mockNetworkService = MockNetworkService()
@@ -39,12 +49,12 @@ class HomeInteractorTests: XCTestCase {
         interactor.fetchProductsData(page: 1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertTrue(self.mockOutput.fetchedProductsDataCalled, "fetchedProductsData should be called")
+            XCTAssertTrue(self.mockOutput.fetchedProductsDataCalled, TestFailureMessage.fetchedProductsDataNotCalled)
             switch self.mockOutput.fetchedResult {
             case .success(let data):
-                XCTAssertEqual(data.products, sampleProducts, "Fetched products should match sample products")
+                XCTAssertEqual(data.products, sampleProducts, TestFailureMessage.fetchProductsMismatch)
             default:
-                XCTFail("Success was expected, but received \(String(describing: self.mockOutput.fetchedResult))")
+                XCTFail(TestFailureMessage.successExpected)
             }
             expectation.fulfill()
         }
@@ -57,12 +67,12 @@ class HomeInteractorTests: XCTestCase {
         interactor.fetchProductsData(page: 1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertTrue(self.mockOutput.fetchedProductsDataCalled, "fetchedProductsData should be called")
+            XCTAssertTrue(self.mockOutput.fetchedProductsDataCalled, TestFailureMessage.fetchedProductsDataNotCalled)
             switch self.mockOutput.fetchedResult {
             case .failure(let error):
-                XCTAssertEqual(error as? NetworkError, NetworkError.invalidURL, "Error should be invalidURL")
+                XCTAssertEqual(error as? NetworkError, NetworkError.invalidURL, TestFailureMessage.invalidURLErrorNotCalled)
             default:
-                XCTFail("Invalid URL error was expected, but received \(String(describing: self.mockOutput.fetchedResult))")
+                XCTFail(TestFailureMessage.invalidURLErrorNotCalled)
             }
             expectation.fulfill()
         }
@@ -78,8 +88,8 @@ class HomeInteractorTests: XCTestCase {
         interactor.searchProducts(with: "")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertTrue(self.mockOutput.filteredProductsDataCalled, "filteredProductsData should be called")
-            XCTAssertEqual(self.mockOutput.filteredProducts?.count, 1, "An empty query should return all products")
+            XCTAssertTrue(self.mockOutput.filteredProductsDataCalled, TestFailureMessage.filteredProductsDataNotCalled)
+            XCTAssertEqual(self.mockOutput.filteredProducts?.count, 1, TestFailureMessage.emptyQueryReturnedIncorrectCount)
             expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -94,12 +104,10 @@ class HomeInteractorTests: XCTestCase {
         interactor.searchProducts(with: "Product")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertTrue(self.mockOutput.filteredProductsDataCalled, "filteredProductsData should be called")
-            XCTAssertEqual(self.mockOutput.filteredProducts?.count, 1, "All products containing 'Product' should be returned")
+            XCTAssertTrue(self.mockOutput.filteredProductsDataCalled, TestFailureMessage.filteredProductsDataNotCalled)
+            XCTAssertEqual(self.mockOutput.filteredProducts?.count, 1, TestFailureMessage.queryResultMismatch)
             expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
 }
-
-
