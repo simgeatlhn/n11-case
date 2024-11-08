@@ -185,7 +185,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension HomeViewController: HomeViewInputs {
     func reloadData(responseData: ResponseData) {
-        self.sponsoredProducts = responseData.sponsoredProducts
+        if let sponsoredProducts = responseData.sponsoredProducts, !sponsoredProducts.isEmpty {
+            self.sponsoredProducts = sponsoredProducts
+        }
         self.products = responseData.products
         DispatchQueue.main.async { [weak self] in
             self?.sponsoredProductsCollectionView.reloadData()

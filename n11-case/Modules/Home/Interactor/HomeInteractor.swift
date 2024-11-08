@@ -11,6 +11,7 @@ class HomeInteractor: HomeInteractorInput {
     
     weak var output: HomeInteractorOutputs?
     var allProducts: [ProductEntity] = []
+    var sponsoredProducts: [SponsoredProductEntity] = []
     private let networkService: NetworkServiceProtocol
     
     init(networkService: NetworkServiceProtocol = NetworkManager.shared) {
@@ -24,12 +25,29 @@ class HomeInteractor: HomeInteractorInput {
         }
         
         networkService.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let data):
-                self?.allProducts = data.products
-                self?.output?.fetchedProductsData(result: .success(data))
+                if page == 1, let sponsoredProducts = data.sponsoredProducts {
+                    self.sponsoredProducts = sponsoredProducts
+                }
+                
+                self.allProducts.append(contentsOf: data.products)
+                if let nextPage = data.nextPage, let nextPageInt = Int(nextPage) {
+                    self.fetchProductsData(page: nextPageInt)
+                } else {
+                    let responseData = ResponseData(
+                        page: data.page,
+                        nextPage: data.nextPage,
+                        publishedAt: data.publishedAt,
+                        sponsoredProducts: self.sponsoredProducts,
+                        products: self.allProducts
+                    )
+                    self.output?.fetchedProductsData(result: .success(responseData))
+                }
             case .failure(let error):
-                self?.output?.fetchedProductsData(result: .failure(error))
+                self.output?.fetchedProductsData(result: .failure(error))
             }
         }
     }

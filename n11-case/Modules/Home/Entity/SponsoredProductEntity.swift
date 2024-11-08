@@ -10,8 +10,17 @@ import Foundation
 struct ResponseData: Codable {
     let page: String
     let nextPage: String?
-    let sponsoredProducts: [SponsoredProductEntity]
+    let publishedAt: String?
+    let sponsoredProducts: [SponsoredProductEntity]?
     let products: [ProductEntity]
+    
+    enum CodingKeys: String, CodingKey {
+        case page
+        case nextPage
+        case publishedAt = "published_at"
+        case sponsoredProducts
+        case products
+    }
 }
 
 struct SponsoredProductEntity: Codable {
@@ -31,4 +40,3 @@ struct SponsoredProductEntity: Codable {
         case rate
     }
 }
-
