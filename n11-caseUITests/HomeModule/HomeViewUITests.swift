@@ -1,4 +1,9 @@
-// HomeUITestCase.swift
+//
+//  HomeViewUITests.swift
+//  n11-caseUITests
+//
+//  Created by simge on 8.11.2024.
+//
 
 import XCTest
 
