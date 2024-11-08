@@ -30,7 +30,6 @@
 		60C060122CDA290C00522B3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60C060102CDA290C00522B3B /* Main.storyboard */; };
 		60C060142CDA290D00522B3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C060132CDA290D00522B3B /* Assets.xcassets */; };
 		60C060172CDA290D00522B3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60C060152CDA290D00522B3B /* LaunchScreen.storyboard */; };
-		60C0602C2CDA290D00522B3B /* n11_caseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */; };
 		60C0602E2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */; };
 		60C0603C2CDA453400522B3B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0603B2CDA453400522B3B /* HomeViewController.swift */; };
 		60C0603F2CDA468500522B3B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60C0603E2CDA468500522B3B /* SnapKit */; };
@@ -50,6 +49,7 @@
 		60DA82392CDE343E003A1347 /* HomeInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA82382CDE343E003A1347 /* HomeInteractorTests.swift */; };
 		60DA823B2CDE344C003A1347 /* MockHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA823A2CDE344C003A1347 /* MockHomeInteractor.swift */; };
 		60DA823D2CDE3BFC003A1347 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA823C2CDE3BFC003A1347 /* NetworkServiceProtocol.swift */; };
+		60DA82422CDE4F7B003A1347 /* HomeViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA82412CDE4F7B003A1347 /* HomeViewUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +97,6 @@
 		60C060182CDA290D00522B3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60C0601D2CDA290D00522B3B /* n11-caseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n11-caseTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60C060272CDA290D00522B3B /* n11-caseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n11-caseUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITests.swift; sourceTree = "<group>"; };
 		60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = n11_caseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		60C0603B2CDA453400522B3B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		60C060482CDA55E100522B3B /* HomeContractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContractor.swift; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 		60DA82382CDE343E003A1347 /* HomeInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractorTests.swift; sourceTree = "<group>"; };
 		60DA823A2CDE344C003A1347 /* MockHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeInteractor.swift; sourceTree = "<group>"; };
 		60DA823C2CDE3BFC003A1347 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		60DA82412CDE4F7B003A1347 /* HomeViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,7 +353,7 @@
 		60C0602A2CDA290D00522B3B /* n11-caseUITests */ = {
 			isa = PBXGroup;
 			children = (
-				60C0602B2CDA290D00522B3B /* n11_caseUITests.swift */,
+				60DA82432CDE5635003A1347 /* HomeModule */,
 				60C0602D2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift */,
 			);
 			path = "n11-caseUITests";
@@ -488,6 +488,14 @@
 				60DA823A2CDE344C003A1347 /* MockHomeInteractor.swift */,
 			);
 			path = HomeInteractorTests;
+			sourceTree = "<group>";
+		};
+		60DA82432CDE5635003A1347 /* HomeModule */ = {
+			isa = PBXGroup;
+			children = (
+				60DA82412CDE4F7B003A1347 /* HomeViewUITests.swift */,
+			);
+			path = HomeModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -681,7 +689,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60C0602E2CDA290D00522B3B /* n11_caseUITestsLaunchTests.swift in Sources */,
-				60C0602C2CDA290D00522B3B /* n11_caseUITests.swift in Sources */,
+				60DA82422CDE4F7B003A1347 /* HomeViewUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

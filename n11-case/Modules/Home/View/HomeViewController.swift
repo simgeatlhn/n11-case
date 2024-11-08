@@ -46,7 +46,7 @@ final class HomeViewController: UIViewController {
         textField.backgroundColor = .clear
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.autocapitalizationType = .none
-        
+        textField.accessibilityIdentifier = "searchTextField"
         return textField
     }()
     
@@ -67,6 +67,7 @@ final class HomeViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.register(SponsoredProductCell.self, forCellWithReuseIdentifier: "SponsoredProductCell")
+        collectionView.accessibilityIdentifier = "sponsoredProductsCollectionView"
         return collectionView
     }()
     
@@ -87,6 +88,7 @@ final class HomeViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "ProductCell")
+        collectionView.accessibilityIdentifier = "productsCollectionView"
         return collectionView
     }()
     
@@ -269,3 +271,4 @@ extension HomeViewController {
         }
     }
 }
+
