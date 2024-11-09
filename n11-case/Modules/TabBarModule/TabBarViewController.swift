@@ -15,6 +15,13 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupTabBar() {
+        configureAppearance()
+        viewControllers = TabBarController.tabBarItems.map { createNavController(for: $0) }
+        tabBar.tintColor = .customPurpleColor
+        tabBar.unselectedItemTintColor = .gray
+    }
+    
+    private func configureAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .white
@@ -22,39 +29,32 @@ final class TabBarController: UITabBarController {
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = tabBar.standardAppearance
         }
-        
-        let homeViewController = HomeRouter.createModule()
-        let homeNav = UINavigationController(rootViewController: homeViewController)
-        homeNav.tabBarItem = UITabBarItem(title: "Ana Sayfa",
-                                          image: UIImage(systemName: "house"),
-                                          selectedImage: UIImage(systemName: "house.fill"))
-        
-        let categoriesVC = HomeRouter.createModule()
-        let categoriesNav = UINavigationController(rootViewController: categoriesVC)
-        categoriesNav.tabBarItem = UITabBarItem(title: "Kategoriler",
-                                                image: UIImage(systemName: "square.grid.2x2"),
-                                                selectedImage: UIImage(systemName: "square.grid.2x2.fill"))
-        
-        let cartVC = HomeRouter.createModule()
-        let cartNav = UINavigationController(rootViewController: cartVC)
-        cartNav.tabBarItem = UITabBarItem(title: "Sepetim",
-                                          image: UIImage(systemName: "cart"),
-                                          selectedImage: UIImage(systemName: "cart.fill"))
-        
-        let listsVC = HomeRouter.createModule()
-        let listsNav = UINavigationController(rootViewController: listsVC)
-        listsNav.tabBarItem = UITabBarItem(title: "Listelerim",
-                                           image: UIImage(systemName: "heart"),
-                                           selectedImage: UIImage(systemName: "heart.fill"))
-        
-        let accountVC = HomeRouter.createModule()
-        let accountNav = UINavigationController(rootViewController: accountVC)
-        accountNav.tabBarItem = UITabBarItem(title: "Hesabım",
-                                             image: UIImage(systemName: "person"),
-                                             selectedImage: UIImage(systemName: "person.fill"))
-        
-        viewControllers = [homeNav, categoriesNav, cartNav, listsNav, accountNav]
-        tabBar.tintColor = .customPurpleColor
-        tabBar.unselectedItemTintColor = .gray
     }
+    
+    private func createNavController(for item: TabBarItem) -> UIViewController {
+        let viewController = HomeRouter.createModule()
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.tabBarItem = UITabBarItem(
+            title: item.title,
+            image: UIImage(systemName: item.imageName),
+            selectedImage: UIImage(systemName: item.selectedImageName)
+        )
+        return navController
+    }
+}
+
+private extension TabBarController {
+    struct TabBarItem {
+        let title: String
+        let imageName: String
+        let selectedImageName: String
+    }
+    
+    static let tabBarItems: [TabBarItem] = [
+        TabBarItem(title: "Ana Sayfa", imageName: "house", selectedImageName: "house.fill"),
+        TabBarItem(title: "Kategoriler", imageName: "square.grid.2x2", selectedImageName: "square.grid.2x2.fill"),
+        TabBarItem(title: "Sepetim", imageName: "cart", selectedImageName: "cart.fill"),
+        TabBarItem(title: "Listelerim", imageName: "heart", selectedImageName: "heart.fill"),
+        TabBarItem(title: "Hesabım", imageName: "person", selectedImageName: "person.fill")
+    ]
 }
