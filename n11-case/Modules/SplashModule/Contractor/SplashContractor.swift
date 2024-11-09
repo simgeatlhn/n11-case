@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol SplashViewInput: AnyObject {
- 
-}
-
 protocol SplashPresenterInput: AnyObject {
     func viewDidLoad()
 }

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class SplashViewController: UIViewController, SplashViewInput {
+final class SplashViewController: UIViewController {
     
     var presenter: SplashPresenterInput!
     
@@ -32,12 +32,12 @@ final class SplashViewController: UIViewController, SplashViewInput {
     }
 }
 
-
 extension SplashViewController {
     func makeUICordinate() {
         splashImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.lessThanOrEqualToSuperview().multipliedBy(0.5)
+            make.height.lessThanOrEqualToSuperview().multipliedBy(0.5)
         }
     }
 }

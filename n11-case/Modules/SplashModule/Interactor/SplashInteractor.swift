@@ -13,8 +13,12 @@ class SplashInteractor: SplashInteractorInput {
     private var timer: Timer?
     
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
             self?.output?.timerDidFinish()
         }
+    }
+    
+    deinit {
+        timer?.invalidate()
     }
 }

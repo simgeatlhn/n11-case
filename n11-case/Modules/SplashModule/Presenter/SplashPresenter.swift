@@ -9,12 +9,10 @@ import Foundation
 
 class SplashPresenter: SplashPresenterInput {
     
-    weak var view: SplashViewInput?
     var interactor: SplashInteractorInput
-    var router: SplashRouterInput?
+    var router: SplashRouterInput
     
-    init(view: SplashViewInput, interactor: SplashInteractorInput, router: SplashRouterInput?) {
-        self.view = view
+    init(interactor: SplashInteractorInput, router: SplashRouterInput) {
         self.interactor = interactor
         self.router = router
     }
@@ -26,6 +24,7 @@ class SplashPresenter: SplashPresenterInput {
 
 extension SplashPresenter: SplashInteractorOutput {
     func timerDidFinish() {
-        router?.navigateToMainApp()
+        router.navigateToMainApp()
     }
 }
+
