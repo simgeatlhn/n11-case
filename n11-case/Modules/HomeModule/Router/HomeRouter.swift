@@ -16,11 +16,9 @@ class HomeRouter: HomeRouterInput {
         let interactor = HomeInteractor()
         let router = HomeRouter()
         let presenter = HomePresenter(view: view, interactor: interactor, router: router)
-        
         view.presenter = presenter
         interactor.output = presenter
         router.viewController = view
-        
         return view
     }
     
