@@ -19,51 +19,46 @@ class HomeInteractor: HomeInteractorInput {
     }
     
     func fetchProductsData(page: Int) {
-        fetchPageData(page: page) { [weak self] result in
+        guard let url = ProductConstant.listingURL(page: page) else {
+            output?.fetchedProductsData(result: .failure(NetworkError.invalidURL))
+            return
+        }
+        networkService.fetchData(from: url) { [weak self] (result: Result<ResponseData, Error>) in
             guard let self = self else { return }
+            
             switch result {
             case .success(let data):
-                self.handleFetchedData(data, page: page)
+                if page == 1, let sponsoredProducts = data.sponsoredProducts {
+                    self.sponsoredProducts = sponsoredProducts
+                }
+                
+                self.allProducts.append(contentsOf: data.products)
+                if let nextPage = data.nextPage, let nextPageInt = Int(nextPage) {
+                    self.fetchProductsData(page: nextPageInt)
+                } else {
+                    let responseData = ResponseData(
+                        page: data.page,
+                        nextPage: data.nextPage,
+                        publishedAt: data.publishedAt,
+                        sponsoredProducts: self.sponsoredProducts,
+                        products: self.allProducts
+                    )
+                    self.output?.fetchedProductsData(result: .success(responseData))
+                }
             case .failure(let error):
                 self.output?.fetchedProductsData(result: .failure(error))
             }
         }
     }
     
-    private func fetchPageData(page: Int, completion: @escaping (Result<ResponseData, Error>) -> Void) {
-        guard let url = ProductConstant.listingURL(page: page) else {
-            completion(.failure(NetworkError.invalidURL))
-            return
-        }
-        networkService.fetchData(from: url, completion: completion)
-    }
-    
-    private func handleFetchedData(_ data: ResponseData, page: Int) {
-        if page == 1, let sponsoredProducts = data.sponsoredProducts {
-            self.sponsoredProducts = sponsoredProducts
-        }
-        allProducts.append(contentsOf: data.products)
-        
-        if let nextPage = data.nextPage, let nextPageInt = Int(nextPage) {
-            fetchProductsData(page: nextPageInt)
-        } else {
-            outputFinalData(data)
-        }
-    }
-    
-    private func outputFinalData(_ data: ResponseData) {
-        let responseData = ResponseData(
-            page: data.page,
-            nextPage: data.nextPage,
-            publishedAt: data.publishedAt,
-            sponsoredProducts: sponsoredProducts,
-            products: allProducts
-        )
-        output?.fetchedProductsData(result: .success(responseData))
-    }
-    
     func searchProducts(with query: String) {
-        let filteredProducts = query.isEmpty ? allProducts : allProducts.filter { $0.title.lowercased().contains(query.lowercased()) }
-        output?.filteredProductsData(filteredProducts)
+        if query.isEmpty {
+            output?.filteredProductsData(allProducts)
+        } else {
+            let filteredProducts = allProducts.filter { product in
+                product.title.lowercased().contains(query.lowercased())
+            }
+            output?.filteredProductsData(filteredProducts)
+        }
     }
 }
