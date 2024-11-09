@@ -14,7 +14,7 @@ final class SplashViewController: UIViewController {
     
     private let splashImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "n11")
+        imageView.image = UIImage(named: "splashLogo")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()

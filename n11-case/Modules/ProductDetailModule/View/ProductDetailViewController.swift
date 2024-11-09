@@ -322,7 +322,7 @@ extension ProductDetailViewController {
         
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(280)
+            make.height.equalTo(300)
         }
         
         pageControl.snp.makeConstraints { make in

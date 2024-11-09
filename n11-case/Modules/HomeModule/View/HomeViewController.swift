@@ -53,7 +53,7 @@ final class HomeViewController: UIViewController {
     private let topImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "image")
+        imageView.image = UIImage(named: "searchLogo")
         imageView.clipsToBounds = true
         return imageView
     }()
