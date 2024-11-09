@@ -49,9 +49,9 @@ class HomeInteractorTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func testFetchProductsData_InvalidURL() {
+    func testFetchPageData_InvalidURL() {
         mockNetworkService.result = .failure(NetworkError.invalidURL)
-        let expectation = self.expectation(description: "FetchProductsDataInvalidURL")
+        let expectation = self.expectation(description: "FetchPageDataInvalidURL")
         interactor.fetchProductsData(page: 1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
