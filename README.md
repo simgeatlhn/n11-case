@@ -19,4 +19,4 @@ Developed this project to display sponsored and regular products in a listing fo
 <img width="1385" alt="n11-case" src="https://github.com/user-attachments/assets/349b49f1-6785-47e1-96fa-96bc43724007">
 
 # Video Recording
-https://github.com/user-attachments/assets/d393ac9f-c48e-46ae-baff-e3c098f67561
+https://github.com/user-attachments/assets/810f1b82-f3e0-4523-8e18-b0ac2304be3f
