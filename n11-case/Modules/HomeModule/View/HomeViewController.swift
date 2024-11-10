@@ -178,8 +178,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let product = products[indexPath.row]
-        presenter.didSelectProduct(withId: product.id)
+        if collectionView == sponsoredProductsCollectionView {
+            guard indexPath.row < sponsoredProducts.count else {
+                print("Sponsored product index out of range")
+                return
+            }
+            let sponsoredProduct = sponsoredProducts[indexPath.row]
+            presenter.didSelectProduct(withId: sponsoredProduct.id)
+        } else if collectionView == productsCollectionView {
+            guard indexPath.row < products.count else {
+                print("Product index out of range")
+                return
+            }
+            let product = products[indexPath.row]
+            presenter.didSelectProduct(withId: product.id)
+        }
     }
 }
 
@@ -273,4 +286,3 @@ extension HomeViewController {
         }
     }
 }
-

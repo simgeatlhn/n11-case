@@ -18,11 +18,11 @@ class HomeUITestCase: XCTestCase {
     }
     
     struct TestFailureMessage {
-        static let homeScreenNotDisplayed = "Ana ekran görüntülenemedi."
-        static let searchTextFieldNotFound = "Arama TextField bulunamadı."
-        static let sponsoredProductsCollectionViewNotFound = "Sponsorlu Ürünler CollectionView bulunamadı."
-        static let productsCollectionViewNotFound = "Ürünler CollectionView bulunamadı."
-        static let searchFunctionalityFailed = "Arama fonksiyonu başarısız oldu. Ürünler CollectionView doğru şekilde güncellenmedi."
+        static let homeScreenNotDisplayed = "Home screen could not be displayed."
+        static let searchTextFieldNotFound = "Search TextField was not found."
+        static let sponsoredProductsCollectionViewNotFound = "Sponsored Products CollectionView was not found."
+        static let productsCollectionViewNotFound = "Products CollectionView was not found."
+        static let searchFunctionalityFailed = "Search functionality failed. Products CollectionView was not updated correctly."
     }
     
     override func setUpWithError() throws {

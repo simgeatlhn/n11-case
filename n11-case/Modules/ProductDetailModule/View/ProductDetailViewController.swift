@@ -295,11 +295,22 @@ extension ProductDetailViewController {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(addToCartButton.snp.top).offset(-16)
+            make.bottom.equalTo(addToCartButton.snp.top).offset(-8)
         }
         
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(300)
         }
         
         offerView.snp.makeConstraints { make in
@@ -314,16 +325,6 @@ extension ProductDetailViewController {
         }
         
         contentView.bringSubviewToFront(offerView)
-        
-        contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        
-        collectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(300)
-        }
         
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(8)
@@ -396,7 +397,6 @@ extension ProductDetailViewController {
             make.centerY.equalTo(tagIcon)
             make.leading.equalTo(tagIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().offset(-16)
         }
         
         productFeaturesTitleLabel.snp.makeConstraints { make in
@@ -407,6 +407,7 @@ extension ProductDetailViewController {
         sellerLabel.snp.makeConstraints { make in
             make.top.equalTo(productFeaturesTitleLabel.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-8)
         }
         
         addToCartButton.snp.makeConstraints { make in
