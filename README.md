@@ -1,18 +1,22 @@
 # N11 Case Study
-Developed this project to display sponsored and regular products in a listing format and to show detailed product pages. The application was created programmatically using UIKit and SnapKit, ensuring modularity and adherence to SOLID principles with the VIPER architecture. To manage network requests and load images, I integrated third-party libraries like Alamofire and Kingfisher via the Swift Package Manager (SPM).
+Developed this project to display sponsored and regular products in a listing format and to show detailed product pages. The application was created programmatically using UIKit and SnapKit, ensuring modularity and adherence to SOLID principles with the VIPER architecture. I integrated third-party libraries like Alamofire and Kingfisher to manage network requests and load images via the Swift Package Manager (SPM).
 
 # Getting Started
 1. Clone the Repository
-2. Open the Project: Open the project in Xcode.
+2. Open the project in Xcode.
 3. Run the Application: Build and run the application on your iOS device or simulator.
 
 # Technologies
-- Viper Architecture
+- VIPER Architecture
 - UIKit
-- Snapkit
+- SnapKit
 - Alamofire
 - Kingfisher
 - SPM
-- Unit and UI Test
+- Unit and UI Tests
+
+# Screenshots
+<img width="1385" alt="n11-case" src="https://github.com/user-attachments/assets/349b49f1-6785-47e1-96fa-96bc43724007">
 
 # Video Recording
+https://github.com/user-attachments/assets/d393ac9f-c48e-46ae-baff-e3c098f67561
